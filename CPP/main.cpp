@@ -60,10 +60,25 @@ void testReverseListNode(){
     std::cout<<std::endl;
 }
 
+void testReplaceSpace(){
+    std::cout<<"test replace space"<<std::endl;
+    Solution s = Solution();
+    std::string test = "We are happy.";
+    std::cout<< s.replaceSpace(test) << std::endl;
+}
+
+void testReverseLeftWords(){
+    std::cout<<"test reverse Left Words"<<std::endl;
+    Solution s = Solution();
+    std::string test = "abcdefg";
+    std::cout<< s.reverseLeftWords(test, 2) << std::endl;
+}
 int main() {
     testCQueue();
     testMinStack();
     testReversePrint();
     testReverseListNode();
+    testReplaceSpace();
+    testReverseLeftWords();
     return 0;
 }

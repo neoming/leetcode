@@ -1,5 +1,6 @@
 #include <vector>
 #include <stack>
+#include <string>
 
 struct ListNode {
     int val;
@@ -89,5 +90,28 @@ public:
         }
 
         return newNodeHead;
+    }
+
+    std::string replaceSpace(std::string s) {
+        std::string res;
+        for(char& a : s){
+            if( a == ' '){
+                res += "%20";
+            }else{
+                res += a;
+            }
+        }
+        return res;
+    }
+
+    std::string reverseLeftWords(std::string s, int n) {
+        std::string res;
+        for(int i = n; i < s.size(); i++){
+            res += s[i];
+        }
+        for(int i = 0; i < n; i++){
+            res += s[i];
+        }
+        return res;
     }
 };
