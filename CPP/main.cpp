@@ -96,6 +96,37 @@ void testMissingNumber(){
     std::cout<<s.missingNumber(ans)<<std::endl;
 }
 
+void testFindNumberIn2DArray(){
+    std::cout<<"test Find Number In 2D Array"<<std::endl;
+    Solution s = Solution();
+    std::vector<int> row0{1,4,7,11,15};
+    std::vector<int> row1{2,   5,  8, 12, 19};
+    std::vector<int> row2{3,   6,  9, 16, 22};
+    std::vector<int> row3{10, 13, 14, 17, 24};
+    std::vector<int> row4{18, 21, 23, 26, 30};
+    std::vector<std::vector<int>> data;
+    data.push_back(row0);
+    data.push_back(row1);
+    data.push_back(row2);
+    data.push_back(row3);
+    data.push_back(row4);
+    std::cout<<s.findNumberIn2DArray(data,20)<<std::endl;
+}
+
+void testMinArray() {
+    std::cout<<"test Min Array"<<std::endl;
+    Solution s = Solution();
+//    std::vector<int> ans{3,4,5,1,2};
+    std::vector<int> ans{2,2,2,0,1};
+    std::cout<<s.minArray(ans)<<std::endl;
+}
+
+void testFirstUniqChar() {
+    std::cout<<"test FirstUniqChar"<<std::endl;
+    Solution s = Solution();
+    std::string src = "abaccdeff";
+    std::cout<<s.firstUniqChar(src)<<std::endl;
+}
 int main() {
     testCQueue();
     testMinStack();
@@ -106,5 +137,8 @@ int main() {
     testFindRepeatNumber();
     testSearch();
     testMissingNumber();
+    testFindNumberIn2DArray();
+    testMinArray();
+    testFirstUniqChar();
     return 0;
 }

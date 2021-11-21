@@ -2,6 +2,7 @@
 #include <stack>
 #include <string>
 #include <algorithm>
+#include <unordered_map>
 
 struct ListNode {
     int val;
@@ -148,5 +149,54 @@ public:
             }
         }
         return ans;
+    }
+
+    bool findNumberIn2DArray(std::vector<std::vector<int>>& matrix, int target) {
+        int n = matrix.size();
+        if( n == 0) return false;
+        int m = matrix[0].size();
+        if( m == 0) return false;
+        bool res = false;
+        int row = n - 1;
+        int col = 0;
+        while (row >= 0 && col < m) {
+            int val = matrix[row][col];
+            if(val == target){
+                return true;
+            }else if(val < target){
+                col++;
+            }else if(val > target){
+                row--;
+            }
+        }
+        return false;
+    }
+
+    int minArray(std::vector<int>& numbers){
+        int length = numbers.size();
+        int left = 0;
+        int right = length - 1;
+        while (left < right){
+            int mid = (right + left) / 2;
+            if( numbers[mid] > numbers[right]) {
+                left = mid + 1;
+            }else if (numbers[mid] == numbers[right]){
+                right--;
+            }else if (numbers[mid] < numbers[right]){
+                right = mid;
+            }
+        }
+        return numbers[left];
+    }
+
+    char firstUniqChar(std::string s){
+        std::unordered_map<char, int> frequency;
+        for(char ch : s){
+            ++frequency[ch];
+        }
+        for(char ch : s){
+            if(frequency[ch] == 1)return ch;
+        }
+        return ' ';
     }
 };
