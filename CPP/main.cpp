@@ -73,6 +73,29 @@ void testReverseLeftWords(){
     std::string test = "abcdefg";
     std::cout<< s.reverseLeftWords(test, 2) << std::endl;
 }
+
+void testFindRepeatNumber(){
+    std::cout<<"test FindRepeatNumber"<<std::endl;
+    Solution s = Solution();
+    std::vector<int> ans{2,3,1,0,2,5,3};
+    std::cout<<s.findRepeatNumber(ans)<<std::endl;
+}
+
+void testSearch(){
+    std::cout<<"test Search"<<std::endl;
+    Solution s = Solution();
+    std::vector<int> ans{5,7,7,8,8,10};
+    std::cout<<s.search(ans,4)<<std::endl;
+}
+
+void testMissingNumber(){
+    std::cout<<"test Missing Number"<<std::endl;
+    Solution s = Solution();
+//    std::vector<int> ans{0,1,2,3,4,5,6,7,9};
+    std::vector<int> ans{0,1,3};
+    std::cout<<s.missingNumber(ans)<<std::endl;
+}
+
 int main() {
     testCQueue();
     testMinStack();
@@ -80,5 +103,8 @@ int main() {
     testReverseListNode();
     testReplaceSpace();
     testReverseLeftWords();
+    testFindRepeatNumber();
+    testSearch();
+    testMissingNumber();
     return 0;
 }

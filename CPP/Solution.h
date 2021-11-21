@@ -1,6 +1,7 @@
 #include <vector>
 #include <stack>
 #include <string>
+#include <algorithm>
 
 struct ListNode {
     int val;
@@ -113,5 +114,39 @@ public:
             res += s[i];
         }
         return res;
+    }
+
+    int findRepeatNumber(std::vector<int>& nums) {
+        int n = nums.size();
+        std::vector<int> count(n);
+        for(int data : nums){
+            if(count[data]==0){
+                count[data]++;
+            }else{
+                return data;
+            }
+        }
+        return -1;
+    }
+
+    int search(std::vector<int>& nums, int target) {
+        return std::upper_bound(nums.begin(),nums.end(),target) - std::lower_bound(nums.begin(),nums.end(),target);
+    }
+
+    int missingNumber(std::vector<int>& nums){
+        int length = nums.size();
+        int left = 0;
+        int right = length-1;
+        int ans = length;
+        while (left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] != mid){
+                right = mid-1;
+                ans = mid;
+            } else{
+                left = mid + 1;
+            }
+        }
+        return ans;
     }
 };
