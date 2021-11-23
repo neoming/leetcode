@@ -22,8 +22,55 @@ public:
         random = nullptr;
     }
 };
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
 class Solution {
 private:
+    bool isSubStructure(TreeNode* A, TreeNode* B) {
+        if( A == nullptr || B == nullptr) return false;
+        if(A->val == B->val && isSub(A->right,B->right) && isSub(A->left,B->left))return true;
+        return isSubStructure(A->left,B) || isSubStructure(A->right,B);
+    }
+    bool isSub(TreeNode* A, TreeNode*B) {
+        if(B==nullptr)return true;
+        if(A==nullptr)return false;
+        if(A->val == B->val){
+            return isSub(A->right,B->right) && isSub(A->left,B->left);
+        }else{
+            return false;
+        }
+    }
+
+    TreeNode* mirrorTree(TreeNode* root) {
+        if(root == nullptr)return nullptr;
+        TreeNode* newRoot = new TreeNode(root->val);
+        newRoot->right = mirrorTree(root->left);
+        newRoot->left = mirrorTree(root->right);
+        return newRoot;
+    }
+
+    bool isSymmetric(TreeNode* root) {
+        if(root== nullptr)return true;
+        return isSymmetricHelper(root->left,root->right);
+    }
+
+    bool isSymmetricHelper(TreeNode* A, TreeNode* B){
+        if(A == nullptr && B == nullptr)return true;
+        else if(A != nullptr && B != nullptr) {
+            if(A->val == B->val){
+                return isSymmetricHelper(A->right,B->left) && isSymmetricHelper(A->left,B->right);
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
     ListNode* recur(ListNode* cur, ListNode* pre){
         if(cur== nullptr) return pre;
         ListNode* res = recur(cur->next, cur);
