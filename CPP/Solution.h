@@ -32,6 +32,42 @@ struct TreeNode {
 
 class Solution {
 private:
+
+    int translateNum(int num) {
+        auto num_string = std::to_string(num);
+        int q = 0;
+        int k = 1;
+        int v = 0;
+        for(int i = 1; i < num_string.size(); i++){
+            v += k;
+            auto pre = num_string.substr(i-1,2);
+            if( pre >= "10" && pre <= "25"){
+                v += q;
+            }
+            q = k;
+            k = v;
+        }
+        return v;
+    }
+
+    int lengthOfLongestSubstring(std::string s) {
+        std::vector<int> lastPos(256);
+        for(int i = 0;i<256;i++)lastPos[i] = -1;
+        int left = 0;
+        int maxLength = 0;
+        for(int i = 0;i<s.size();i++){
+            int index = s[i];
+            if(lastPos[index] == -1) {
+                lastPos[index] = i;
+            }else{
+                left = std::max(left,lastPos[index] + 1);
+                lastPos[index] = i;
+            }
+            maxLength = std::max(i-left + 1, maxLength);
+        }
+        return maxLength;
+    }
+
     int maxSubArray(std::vector<int>& nums) {
         int pre = 0;
         int maxRes = INT_MIN;
