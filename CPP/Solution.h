@@ -33,6 +33,44 @@ struct TreeNode {
 class Solution {
 private:
 
+    // day 11
+    ListNode* deleteNode(ListNode* head, int val) {
+        ListNode* prevNode = nullptr;
+        ListNode* nowNode = head;
+        while (nowNode != nullptr){
+            if(nowNode->val == val){
+                if(prevNode != nullptr){
+                    prevNode->next = nowNode->next;
+                    return head;
+                }else{
+                    head = nowNode->next;
+                    return head;
+                }
+
+            }else{
+                prevNode = nowNode;
+                nowNode = nowNode->next;
+            }
+        }
+        return head;
+    }
+
+    ListNode* getKthFromEnd(ListNode* head, int k) {
+        ListNode* cur;
+        ListNode* next_k;
+        cur = head;
+        next_k = head;
+        for(int i = 0;i<k;i++){
+            if(next_k == nullptr)return nullptr;
+            next_k = next_k->next;
+        }
+        while (next_k != nullptr){
+            cur = cur->next;
+            next_k = next_k->next;
+        }
+        return cur;
+    }
+
     int translateNum(int num) {
         auto num_string = std::to_string(num);
         int q = 0;
