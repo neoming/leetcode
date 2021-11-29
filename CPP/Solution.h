@@ -32,6 +32,38 @@ struct TreeNode {
 
 class Solution {
 private:
+    // day 13
+    std::vector<int> exchange(std::vector<int>& nums) {
+        int length = nums.size();
+        int odd_index = 0;
+        int even_index = length-1;
+        std::vector<int> ans(length);
+        for(auto & num : nums){
+            if(num%2 == 0){
+                ans[even_index--] = num;
+            }else{
+                ans[odd_index++] = num;
+            }
+        }
+        return ans;
+    }
+    std::vector<int> twoSum(std::vector<int>& nums, int target) {
+        std::vector<int> ans(2);
+        int left = 0;
+        int right = nums.size() - 1;
+        while(left < right){
+            if(nums[left] + nums[right] > target){
+                right--;
+            }else if(nums[left] + nums[right] < target){
+                left++;
+            }else{
+                ans[0] = nums[left];
+                ans[1] = nums[right];
+                break;
+            }
+        }
+        return ans;
+    }
 
     // day 12
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -154,63 +186,63 @@ private:
         }
         return maxRes;
     }
+//
+//    int maxValue(std::vector<std::vector<int>>& grid) {
+//        int m = grid.size();
+//        if(m == 0)return 0;
+//        int n = grid[0].size();
+//        if(n == 0)return 0;
+//        int dp[m][n];
+//        dp[0][0] = grid[0][0];
+//        for(int i = 1;i<m;i++){
+//            dp[i][0] = grid[i][0] + dp[i-1][0];
+//        }
+//        for(int i = 1;i<n;i++){
+//            dp[0][i] = grid[0][i] + dp[0][i-1];
+//        }
+//        for(int i = 1;i<m;i++){
+//            for (int j = 1; j<n;j++){
+//                dp[i][j] = grid[i][j] + std::max(dp[i-1][j], dp[i][j-1]);
+//            }
+//        }
+//        return dp[m-1][n-1];
+//    }
 
-    int maxValue(std::vector<std::vector<int>>& grid) {
-        int m = grid.size();
-        if(m == 0)return 0;
-        int n = grid[0].size();
-        if(n == 0)return 0;
-        int dp[m][n];
-        dp[0][0] = grid[0][0];
-        for(int i = 1;i<m;i++){
-            dp[i][0] = grid[i][0] + dp[i-1][0];
-        }
-        for(int i = 1;i<n;i++){
-            dp[0][i] = grid[0][i] + dp[0][i-1];
-        }
-        for(int i = 1;i<m;i++){
-            for (int j = 1; j<n;j++){
-                dp[i][j] = grid[i][j] + std::max(dp[i-1][j], dp[i][j-1]);
-            }
-        }
-        return dp[m-1][n-1];
-    }
+//    int fib(int n) {
+//        int dp [n+1];
+//        if(n == 0)return 0;
+//        if(n == 1)return 1;
+//        dp[0] = 0;
+//        dp[1] = 1;
+//        for(int i = 2;i<=n;i++){
+//            dp[i]  = dp[i-1] + dp[i-2];
+//            dp[i] %= 1000000007;
+//        }
+//        return dp[n];
+//    }
 
-    int fib(int n) {
-        int dp [n+1];
-        if(n == 0)return 0;
-        if(n == 1)return 1;
-        dp[0] = 0;
-        dp[1] = 1;
-        for(int i = 2;i<=n;i++){
-            dp[i]  = dp[i-1] + dp[i-2];
-            dp[i] %= 1000000007;
-        }
-        return dp[n];
-    }
-
-    int numWays(int n) {
-        int dp[n+1];
-        if(n == 0){
-            return 1;
-        }
-        if(n == 1){
-            return 1;
-        }
-        if(n == 2){
-            return 2;
-        }
-        dp[0] = 1;
-        dp[1] = 1;
-        dp[2] = 2;
-
-        for(int i = 3;i<=n;i++){
-            dp[i] = dp[i-1] + dp[i-2];
-            dp[i] %= 1000000007;
-        }
-
-        return dp[n];
-    }
+//    int numWays(int n) {
+//        int dp[n+1];
+//        if(n == 0){
+//            return 1;
+//        }
+//        if(n == 1){
+//            return 1;
+//        }
+//        if(n == 2){
+//            return 2;
+//        }
+//        dp[0] = 1;
+//        dp[1] = 1;
+//        dp[2] = 2;
+//
+//        for(int i = 3;i<=n;i++){
+//            dp[i] = dp[i-1] + dp[i-2];
+//            dp[i] %= 1000000007;
+//        }
+//
+//        return dp[n];
+//    }
 
     int maxProfit(std::vector<int>& prices) {
         int min = INT_MAX;
@@ -435,5 +467,30 @@ public:
             if(frequency[ch] == 1)return ch;
         }
         return ' ';
+    }
+
+    std::string reverseWords(std::string s) {
+        std::vector<std::pair<int,int>> word_index;
+        int index = 0;
+        while (index < s.size()){
+            while (index<s.size() && s[index++] == ' ' );
+            int left = index;
+            while (index<s.size() && s[index++] != ' ' );
+            int length = 0;
+            if(index == s.size()){
+                length = index-left;
+            }else{
+                length = index-left-1;
+            }
+            word_index.emplace_back(left,length);
+        }
+        int length = word_index.size();
+        std::string ans = "";
+        for(int i = length - 1;i>=0;i--){
+            auto word = s.substr(word_index[i].first,word_index[i].second);
+            ans += word;
+            if(i != 0)ans+=' ';
+        }
+        return ans;
     }
 };

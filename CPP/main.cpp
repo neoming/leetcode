@@ -127,6 +127,13 @@ void testFirstUniqChar() {
     std::string src = "abaccdeff";
     std::cout<<s.firstUniqChar(src)<<std::endl;
 }
+
+void testReverseWords() {
+    std::cout<<"test ReverseWords"<<std::endl;
+    Solution s = Solution();
+    std::string src = "the sky is blue";
+    std::cout<<s.reverseWords(src)<<std::endl;
+}
 int main() {
     testCQueue();
     testMinStack();
@@ -140,5 +147,6 @@ int main() {
     testFindNumberIn2DArray();
     testMinArray();
     testFirstUniqChar();
+    testReverseWords();
     return 0;
 }
