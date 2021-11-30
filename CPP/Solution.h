@@ -31,7 +31,76 @@ struct TreeNode {
 };
 
 class Solution {
-private:
+public:
+    // day 14
+    bool exist(std::vector<std::vector<char>>& board, std::string word) {
+        if(board.empty())return false;
+        std::vector<std::vector<bool>> visited;
+        for(int i = 0;i<board.size();i++){
+            std::vector<bool> line;
+            for(int j = 0; j< board[0].size();j++){
+                line.push_back(false);
+            }
+            visited.push_back(line);
+        }
+        for(int i = 0;i<board.size();i++)
+            for(int j = 0;j<board[0].size();j++){
+                if(board[i][j] == word[0]){
+                    bool res = existRecur(board,visited,i,j,0,word);
+                    if(res)return true;
+                }
+            }
+        return false;
+    }
+    bool existRecur(std::vector<std::vector<char>>& board,std::vector<std::vector<bool>>& visited,int i,int j,int nowIndex, std::string& word){
+        if(i<0 || i >= board.size() || j < 0 || j >= board[0].size())return false;
+        if( visited[i][j] )return false;
+        if( board[i][j] != word[nowIndex])return false;
+        else if(board[i][j] == word[nowIndex] && nowIndex == word.size()-1)return true;
+        else{
+            visited[i][j] = true;
+            bool res =  existRecur(board,visited,i-1,j,nowIndex+1,word)||
+                        existRecur(board,visited,i+1,j,nowIndex+1,word)||
+                        existRecur(board,visited,i,j-1,nowIndex+1,word)||
+                        existRecur(board,visited,i,j+1,nowIndex+1,word);
+            visited[i][j] = false;
+            return res;
+        }
+        return false;
+    }
+
+    int movingCount(int m, int n, int k) {
+        std::vector<std::vector<bool>> visited(m,std::vector<bool>(n, false));
+        movingRecur(0,0,k,visited);
+        int ans = 0;
+        for(auto line : visited)
+            for(auto item : line)if(item)ans++;
+        return ans;
+    }
+
+    void movingRecur(int i,int j, int k, std::vector<std::vector<bool>>& visited){
+        if(i < 0 || i >= visited.size() || j < 0 || j >= visited[0].size()) return;
+        if(canMove(i,j,k) && !visited[i][j]){
+            visited[i][j] = true;
+            movingRecur(i-1,j,k,visited);
+            movingRecur(i+1,j,k,visited);
+            movingRecur(i,j+1,k,visited);
+            movingRecur(i,j+1,k,visited);
+        }
+    }
+
+    bool canMove(int i, int j, int k){
+        int ans = 0;
+        while (i != 0){
+            ans += i % 10;
+            i /= 10;
+        }
+        while (j != 0){
+            ans += j % 10;
+            j /= 10;
+        }
+        return ans<=k;
+    }
     // day 13
     std::vector<int> exchange(std::vector<int>& nums) {
         int length = nums.size();
@@ -299,7 +368,6 @@ private:
         cur->next = pre;
         return res;
     }
-public:
     std::vector<int> reversePrint(ListNode* head) {
         std::stack<int> valStack;
         while (head != nullptr){
