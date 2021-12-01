@@ -4,22 +4,45 @@
 #include <algorithm>
 #include <unordered_map>
 
+using namespace std;
+
 struct ListNode {
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
 };
 
+//class Node {
+//public:
+//    int val;
+//    Node* next;
+//    Node* random;
+//
+//    Node(int _val) {
+//        val = _val;
+//        next = nullptr;
+//        random = nullptr;
+//    }
+//};
+
 class Node {
 public:
     int val;
-    Node* next;
-    Node* random;
+    Node* left;
+    Node* right;
+
+    Node() {}
 
     Node(int _val) {
         val = _val;
-        next = nullptr;
-        random = nullptr;
+        left = NULL;
+        right = NULL;
+    }
+
+    Node(int _val, Node* _left, Node* _right) {
+        val = _val;
+        left = _left;
+        right = _right;
     }
 };
 
@@ -27,17 +50,71 @@ struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
 class Solution {
 public:
+
+    // day 15
+    vector<int> path;
+    vector<vector<int>> ans;
+    vector<vector<int>> pathSum(TreeNode* root, int target) {
+        pathSumRecur(root,0,target);
+        return ans;
+    }
+    void pathSumRecur(TreeNode* root, int now, int target){
+        if(root == nullptr)return;
+        path.emplace_back(root->val);
+        if(root->right == nullptr && root->left == nullptr && root->val + now == target ){
+            ans.emplace_back(path);
+        }else{
+            pathSumRecur(root->right, now + root->val, target);
+            pathSumRecur(root->left, now + root->val, target);
+        }
+        path.pop_back();
+    }
+
+    Node* pre, *head;
+    Node* treeToDoublyList(Node* root) {
+        if(root == nullptr) return nullptr;
+        treeToDoublyListRecur(root);
+        head->left = pre;
+        pre->right = head;
+        return head;
+    }
+    void treeToDoublyListRecur(Node* root){
+        if(root == nullptr)return;
+        treeToDoublyListRecur(root->left);
+        if(pre == nullptr){
+            head = root;
+        }else{
+            pre->right = root;
+        }
+        root->left = pre;
+        pre = root;
+        treeToDoublyListRecur(root->right);
+    }
+
+    vector<int> kthLargestNums;
+    int kthLargest(TreeNode* root, int k) {
+        kthLargestRecur(root);
+        return kthLargestNums[kthLargestNums.size()-k];
+    }
+    void kthLargestRecur(TreeNode* root){
+        if(root == nullptr)return;
+        kthLargestRecur(root->left);
+        kthLargestNums.emplace_back(root->val);
+        kthLargestRecur(root->right);
+    }
     // day 14
-    bool exist(std::vector<std::vector<char>>& board, std::string word) {
+    bool exist(vector<vector<char>>& board, string word) {
         if(board.empty())return false;
-        std::vector<std::vector<bool>> visited;
+        vector<vector<bool>> visited;
         for(int i = 0;i<board.size();i++){
-            std::vector<bool> line;
+            vector<bool> line;
             for(int j = 0; j< board[0].size();j++){
                 line.push_back(false);
             }
@@ -52,7 +129,7 @@ public:
             }
         return false;
     }
-    bool existRecur(std::vector<std::vector<char>>& board,std::vector<std::vector<bool>>& visited,int i,int j,int nowIndex, std::string& word){
+    bool existRecur(vector<vector<char>>& board,vector<vector<bool>>& visited,int i,int j,int nowIndex, string& word){
         if(i<0 || i >= board.size() || j < 0 || j >= board[0].size())return false;
         if( visited[i][j] )return false;
         if( board[i][j] != word[nowIndex])return false;
@@ -70,7 +147,7 @@ public:
     }
 
     int movingCount(int m, int n, int k) {
-        std::vector<std::vector<bool>> visited(m,std::vector<bool>(n, false));
+        vector<vector<bool>> visited(m,vector<bool>(n, false));
         movingRecur(0,0,k,visited);
         int ans = 0;
         for(auto line : visited)
@@ -78,7 +155,7 @@ public:
         return ans;
     }
 
-    void movingRecur(int i,int j, int k, std::vector<std::vector<bool>>& visited){
+    void movingRecur(int i,int j, int k, vector<vector<bool>>& visited){
         if(i < 0 || i >= visited.size() || j < 0 || j >= visited[0].size()) return;
         if(canMove(i,j,k) && !visited[i][j]){
             visited[i][j] = true;
@@ -102,11 +179,11 @@ public:
         return ans<=k;
     }
     // day 13
-    std::vector<int> exchange(std::vector<int>& nums) {
+    vector<int> exchange(vector<int>& nums) {
         int length = nums.size();
         int odd_index = 0;
         int even_index = length-1;
-        std::vector<int> ans(length);
+        vector<int> ans(length);
         for(auto & num : nums){
             if(num%2 == 0){
                 ans[even_index--] = num;
@@ -116,8 +193,8 @@ public:
         }
         return ans;
     }
-    std::vector<int> twoSum(std::vector<int>& nums, int target) {
-        std::vector<int> ans(2);
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ans(2);
         int left = 0;
         int right = nums.size() - 1;
         while(left < right){
@@ -212,7 +289,7 @@ public:
     }
 
     int translateNum(int num) {
-        auto num_string = std::to_string(num);
+        auto num_string = to_string(num);
         int q = 0;
         int k = 1;
         int v = 0;
@@ -228,8 +305,8 @@ public:
         return v;
     }
 
-    int lengthOfLongestSubstring(std::string s) {
-        std::vector<int> lastPos(256);
+    int lengthOfLongestSubstring(string s) {
+        vector<int> lastPos(256);
         for(int i = 0;i<256;i++)lastPos[i] = -1;
         int left = 0;
         int maxLength = 0;
@@ -238,25 +315,25 @@ public:
             if(lastPos[index] == -1) {
                 lastPos[index] = i;
             }else{
-                left = std::max(left,lastPos[index] + 1);
+                left = max(left,lastPos[index] + 1);
                 lastPos[index] = i;
             }
-            maxLength = std::max(i-left + 1, maxLength);
+            maxLength = max(i-left + 1, maxLength);
         }
         return maxLength;
     }
 
-    int maxSubArray(std::vector<int>& nums) {
+    int maxSubArray(vector<int>& nums) {
         int pre = 0;
         int maxRes = INT_MIN;
         for(auto & num : nums){
-            pre = std::max(pre + num, num);
-            maxRes = std::max(maxRes, pre);
+            pre = max(pre + num, num);
+            maxRes = max(maxRes, pre);
         }
         return maxRes;
     }
 //
-//    int maxValue(std::vector<std::vector<int>>& grid) {
+//    int maxValue(vector<vector<int>>& grid) {
 //        int m = grid.size();
 //        if(m == 0)return 0;
 //        int n = grid[0].size();
@@ -271,7 +348,7 @@ public:
 //        }
 //        for(int i = 1;i<m;i++){
 //            for (int j = 1; j<n;j++){
-//                dp[i][j] = grid[i][j] + std::max(dp[i-1][j], dp[i][j-1]);
+//                dp[i][j] = grid[i][j] + max(dp[i-1][j], dp[i][j-1]);
 //            }
 //        }
 //        return dp[m-1][n-1];
@@ -313,7 +390,7 @@ public:
 //        return dp[n];
 //    }
 
-    int maxProfit(std::vector<int>& prices) {
+    int maxProfit(vector<int>& prices) {
         int min = INT_MAX;
         int res = 0;
         for(int& price : prices) {
@@ -368,13 +445,13 @@ public:
         cur->next = pre;
         return res;
     }
-    std::vector<int> reversePrint(ListNode* head) {
-        std::stack<int> valStack;
+    vector<int> reversePrint(ListNode* head) {
+        stack<int> valStack;
         while (head != nullptr){
             valStack.push(head->val);
             head = head->next;
         }
-        std::vector<int> ans;
+        vector<int> ans;
         while (!valStack.empty()) {
             ans.push_back(valStack.top());
             valStack.pop();
@@ -398,41 +475,41 @@ public:
         return recur(head, nullptr);
     }
 
-    Node* copyRandomList(Node* head) {
+//    Node* copyRandomList(Node* head) {
+//
+//        if (head == nullptr) return nullptr;
+//        // create the copy of cur node than cur->next = new node
+//        Node* cur = head;
+//        while (cur != nullptr){
+//            Node* newNode = new Node(cur->val);
+//            newNode->next = cur->next;
+//            cur->next = newNode;
+//            cur = newNode->next;
+//        }
+//
+//        //update random
+//        cur = head;
+//        while (cur != nullptr){
+//            Node* newNode = cur->next;
+//            newNode->random = (cur->random != nullptr) ? cur->random->next : nullptr;
+//            cur = newNode->next;
+//        }
+//
+//        //delete connection between cur and newNode
+//        Node* newNodeHead=head->next;
+//        cur = head;
+//        while (cur != nullptr ){
+//            Node* newNode = cur->next;
+//            cur->next = newNode->next;
+//            newNode->next = (newNode->next != nullptr) ? newNode->next->next : nullptr;
+//            cur = cur->next;
+//        }
+//
+//        return newNodeHead;
+//    }
 
-        if (head == nullptr) return nullptr;
-        // create the copy of cur node than cur->next = new node
-        Node* cur = head;
-        while (cur != nullptr){
-            Node* newNode = new Node(cur->val);
-            newNode->next = cur->next;
-            cur->next = newNode;
-            cur = newNode->next;
-        }
-
-        //update random
-        cur = head;
-        while (cur != nullptr){
-            Node* newNode = cur->next;
-            newNode->random = (cur->random != nullptr) ? cur->random->next : nullptr;
-            cur = newNode->next;
-        }
-
-        //delete connection between cur and newNode
-        Node* newNodeHead=head->next;
-        cur = head;
-        while (cur != nullptr ){
-            Node* newNode = cur->next;
-            cur->next = newNode->next;
-            newNode->next = (newNode->next != nullptr) ? newNode->next->next : nullptr;
-            cur = cur->next;
-        }
-
-        return newNodeHead;
-    }
-
-    std::string replaceSpace(std::string s) {
-        std::string res;
+    string replaceSpace(string s) {
+        string res;
         for(char& a : s){
             if( a == ' '){
                 res += "%20";
@@ -443,8 +520,8 @@ public:
         return res;
     }
 
-    std::string reverseLeftWords(std::string s, int n) {
-        std::string res;
+    string reverseLeftWords(string s, int n) {
+        string res;
         for(int i = n; i < s.size(); i++){
             res += s[i];
         }
@@ -454,9 +531,9 @@ public:
         return res;
     }
 
-    int findRepeatNumber(std::vector<int>& nums) {
+    int findRepeatNumber(vector<int>& nums) {
         int n = nums.size();
-        std::vector<int> count(n);
+        vector<int> count(n);
         for(int data : nums){
             if(count[data]==0){
                 count[data]++;
@@ -467,11 +544,11 @@ public:
         return -1;
     }
 
-    int search(std::vector<int>& nums, int target) {
-        return std::upper_bound(nums.begin(),nums.end(),target) - std::lower_bound(nums.begin(),nums.end(),target);
+    int search(vector<int>& nums, int target) {
+        return upper_bound(nums.begin(),nums.end(),target) - lower_bound(nums.begin(),nums.end(),target);
     }
 
-    int missingNumber(std::vector<int>& nums){
+    int missingNumber(vector<int>& nums){
         int length = nums.size();
         int left = 0;
         int right = length-1;
@@ -488,7 +565,7 @@ public:
         return ans;
     }
 
-    bool findNumberIn2DArray(std::vector<std::vector<int>>& matrix, int target) {
+    bool findNumberIn2DArray(vector<vector<int>>& matrix, int target) {
         int n = matrix.size();
         if( n == 0) return false;
         int m = matrix[0].size();
@@ -509,7 +586,7 @@ public:
         return false;
     }
 
-    int minArray(std::vector<int>& numbers){
+    int minArray(vector<int>& numbers){
         int length = numbers.size();
         int left = 0;
         int right = length - 1;
@@ -526,8 +603,8 @@ public:
         return numbers[left];
     }
 
-    char firstUniqChar(std::string s){
-        std::unordered_map<char, int> frequency;
+    char firstUniqChar(string s){
+        unordered_map<char, int> frequency;
         for(char ch : s){
             ++frequency[ch];
         }
@@ -537,8 +614,8 @@ public:
         return ' ';
     }
 
-    std::string reverseWords(std::string s) {
-        std::vector<std::pair<int,int>> word_index;
+    string reverseWords(string s) {
+        vector<pair<int,int>> word_index;
         int index = 0;
         while (index < s.size()){
             while (index<s.size() && s[index++] == ' ' );
@@ -553,7 +630,7 @@ public:
             word_index.emplace_back(left,length);
         }
         int length = word_index.size();
-        std::string ans = "";
+        string ans = "";
         for(int i = length - 1;i>=0;i--){
             auto word = s.substr(word_index[i].first,word_index[i].second);
             ans += word;
