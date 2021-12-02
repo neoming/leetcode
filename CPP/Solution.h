@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <unordered_map>
+#include <queue>
 
 using namespace std;
 
@@ -445,13 +446,14 @@ public:
         cur->next = pre;
         return res;
     }
-    vector<int> reversePrint(ListNode* head) {
-        stack<int> valStack;
+public:
+    std::vector<int> reversePrint(ListNode* head) {
+        std::stack<int> valStack;
         while (head != nullptr){
             valStack.push(head->val);
             head = head->next;
         }
-        vector<int> ans;
+        std::vector<int> ans;
         while (!valStack.empty()) {
             ans.push_back(valStack.top());
             valStack.pop();
@@ -586,7 +588,7 @@ public:
         return false;
     }
 
-    int minArray(vector<int>& numbers){
+    int minArray(std::vector<int>& numbers){
         int length = numbers.size();
         int left = 0;
         int right = length - 1;
@@ -635,6 +637,81 @@ public:
             auto word = s.substr(word_index[i].first,word_index[i].second);
             ans += word;
             if(i != 0)ans+=' ';
+        }
+        return ans;
+    }
+
+    std::vector<int> levelOrder(TreeNode* root) {
+        std::queue<TreeNode*> tree_queue;
+        std::vector<int> ans;
+        if(root == nullptr) return ans;
+        tree_queue.push(root);
+        while (!tree_queue.empty()){
+            int length = tree_queue.size();
+            for(int i = 0;i< length;i++){
+                TreeNode* tmp = tree_queue.front();
+                ans.push_back(tmp->val);
+                if(tmp->left != nullptr){
+                    tree_queue.push(tmp->left);
+                }
+                if(tmp->right != nullptr){
+                    tree_queue.push(tmp->right);
+                }
+                tree_queue.pop();
+            }
+        }
+        return ans;
+    }
+
+    vector<vector<int>> levelOrder1(TreeNode* root) {
+        std::queue<TreeNode*> tree_queue;
+        std::vector<std::vector<int>> ans;
+        if(root == nullptr) return ans;
+        tree_queue.push(root);
+        while (!tree_queue.empty()){
+            std::vector<int> ans_tmp;
+            int length = tree_queue.size();
+            for(int i = 0;i< length;i++){
+                TreeNode* tmp = tree_queue.front();
+                ans_tmp.push_back(tmp->val);
+                if(tmp->left != nullptr){
+                    tree_queue.push(tmp->left);
+                }
+                if(tmp->right != nullptr){
+                    tree_queue.push(tmp->right);
+                }
+                tree_queue.pop();
+            }
+            ans.push_back(ans_tmp);
+        }
+        return ans;
+    }
+
+    vector<vector<int>> levelOrder2(TreeNode* root) {
+        std::queue<TreeNode*> tree_queue;
+        std::vector<vector<int>> ans;
+        if(root == nullptr) return ans;
+        tree_queue.push(root);
+        bool inverse = false;
+        while (!tree_queue.empty()){
+            std::vector<int> ans_tmp;
+            int length = tree_queue.size();
+            for(int i = 0;i< length;i++){
+                TreeNode* tmp = tree_queue.front();
+                ans_tmp.push_back(tmp->val);
+                if(tmp->left != nullptr){
+                    tree_queue.push(tmp->left);
+                }
+                if(tmp->right != nullptr){
+                    tree_queue.push(tmp->right);
+                }
+                tree_queue.pop();
+            }
+            if(inverse){
+                std::reverse(ans_tmp.begin(),ans_tmp.end());
+            }
+            ans.push_back(ans_tmp);
+            inverse = !inverse;
         }
         return ans;
     }
