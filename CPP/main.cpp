@@ -2,28 +2,30 @@
 #include "CQueue.h"
 #include "MinStack.h"
 #include "Solution.h"
+using namespace std;
+
 void testCQueue() {
-    std::cout<<"test CQueue"<<std::endl;
+    cout<<"test CQueue"<<endl;
     CQueue cQueue = CQueue();
     cQueue.appendTail(3);
-    std::cout<<cQueue.deleteHead()<< std::endl;
-    std::cout<<cQueue.deleteHead()<< std::endl;
+    cout<<cQueue.deleteHead()<< endl;
+    cout<<cQueue.deleteHead()<< endl;
 }
 
 void testMinStack() {
-    std::cout<<"test MinStack"<<std::endl;
+    cout<<"test MinStack"<<endl;
     MinStack minStack = MinStack();
     minStack.push(-2);
     minStack.push(0);
     minStack.push(-3);
-    std::cout<<minStack.min()<<std::endl;
+    cout<<minStack.min()<<endl;
     minStack.pop();
-    std::cout<<minStack.top()<<std::endl;
-    std::cout<<minStack.min()<<std::endl;
+    cout<<minStack.top()<<endl;
+    cout<<minStack.min()<<endl;
 }
 
 void testReversePrint(){
-    std::cout<<"test reverse print"<<std::endl;
+    cout<<"test reverse print"<<endl;
     Solution s = Solution();
     ListNode* a = new ListNode(1);
     ListNode* b = new ListNode(3);
@@ -31,13 +33,13 @@ void testReversePrint(){
     a->next = b;
     b->next = c;
     for (auto& a : s.reversePrint(a)){
-        std::cout<<a<<",";
+        cout<<a<<",";
     }
-    std::cout<<std::endl;
+    cout<<endl;
 }
 
 void testReverseListNode(){
-    std::cout<<"test reverse ListNode"<<std::endl;
+    cout<<"test reverse ListNode"<<endl;
     Solution s = Solution();
     ListNode* a = new ListNode(1);
     ListNode* b = new ListNode(3);
@@ -47,92 +49,99 @@ void testReverseListNode(){
     ListNode* head = a;
     head = s.reverseList(head);
     while(head != nullptr){
-        std::cout<<head->val<<",";
+        cout<<head->val<<",";
         head = head->next;
     }
-    std::cout<<std::endl;
+    cout<<endl;
     head = c;
     head = s.reverseListRecur(head);
     while(head != nullptr){
-        std::cout<<head->val<<",";
+        cout<<head->val<<",";
         head = head->next;
     }
-    std::cout<<std::endl;
+    cout<<endl;
 }
 
 void testReplaceSpace(){
-    std::cout<<"test replace space"<<std::endl;
+    cout<<"test replace space"<<endl;
     Solution s = Solution();
-    std::string test = "We are happy.";
-    std::cout<< s.replaceSpace(test) << std::endl;
+    string test = "We are happy.";
+    cout<< s.replaceSpace(test) << endl;
 }
 
 void testReverseLeftWords(){
-    std::cout<<"test reverse Left Words"<<std::endl;
+    cout<<"test reverse Left Words"<<endl;
     Solution s = Solution();
-    std::string test = "abcdefg";
-    std::cout<< s.reverseLeftWords(test, 2) << std::endl;
+    string test = "abcdefg";
+    cout<< s.reverseLeftWords(test, 2) << endl;
 }
 
 void testFindRepeatNumber(){
-    std::cout<<"test FindRepeatNumber"<<std::endl;
+    cout<<"test FindRepeatNumber"<<endl;
     Solution s = Solution();
-    std::vector<int> ans{2,3,1,0,2,5,3};
-    std::cout<<s.findRepeatNumber(ans)<<std::endl;
+    vector<int> ans{2,3,1,0,2,5,3};
+    cout<<s.findRepeatNumber(ans)<<endl;
 }
 
 void testSearch(){
-    std::cout<<"test Search"<<std::endl;
+    cout<<"test Search"<<endl;
     Solution s = Solution();
-    std::vector<int> ans{5,7,7,8,8,10};
-    std::cout<<s.search(ans,4)<<std::endl;
+    vector<int> ans{5,7,7,8,8,10};
+    cout<<s.search(ans,4)<<endl;
 }
 
 void testMissingNumber(){
-    std::cout<<"test Missing Number"<<std::endl;
+    cout<<"test Missing Number"<<endl;
     Solution s = Solution();
-//    std::vector<int> ans{0,1,2,3,4,5,6,7,9};
-    std::vector<int> ans{0,1,3};
-    std::cout<<s.missingNumber(ans)<<std::endl;
+//    vector<int> ans{0,1,2,3,4,5,6,7,9};
+    vector<int> ans{0,1,3};
+    cout<<s.missingNumber(ans)<<endl;
 }
 
 void testFindNumberIn2DArray(){
-    std::cout<<"test Find Number In 2D Array"<<std::endl;
+    cout<<"test Find Number In 2D Array"<<endl;
     Solution s = Solution();
-    std::vector<int> row0{1,4,7,11,15};
-    std::vector<int> row1{2,   5,  8, 12, 19};
-    std::vector<int> row2{3,   6,  9, 16, 22};
-    std::vector<int> row3{10, 13, 14, 17, 24};
-    std::vector<int> row4{18, 21, 23, 26, 30};
-    std::vector<std::vector<int>> data;
+    vector<int> row0{1,4,7,11,15};
+    vector<int> row1{2,   5,  8, 12, 19};
+    vector<int> row2{3,   6,  9, 16, 22};
+    vector<int> row3{10, 13, 14, 17, 24};
+    vector<int> row4{18, 21, 23, 26, 30};
+    vector<vector<int>> data;
     data.push_back(row0);
     data.push_back(row1);
     data.push_back(row2);
     data.push_back(row3);
     data.push_back(row4);
-    std::cout<<s.findNumberIn2DArray(data,20)<<std::endl;
+    cout<<s.findNumberIn2DArray(data,20)<<endl;
 }
 
 void testMinArray() {
-    std::cout<<"test Min Array"<<std::endl;
+    cout<<"test Min Array"<<endl;
     Solution s = Solution();
-//    std::vector<int> ans{3,4,5,1,2};
-    std::vector<int> ans{2,2,2,0,1};
-    std::cout<<s.minArray(ans)<<std::endl;
+//    vector<int> ans{3,4,5,1,2};
+    vector<int> ans{2,2,2,0,1};
+    cout<<s.minArray(ans)<<endl;
 }
 
 void testFirstUniqChar() {
-    std::cout<<"test FirstUniqChar"<<std::endl;
+    cout<<"test FirstUniqChar"<<endl;
     Solution s = Solution();
-    std::string src = "abaccdeff";
-    std::cout<<s.firstUniqChar(src)<<std::endl;
+    string src = "abaccdeff";
+    cout<<s.firstUniqChar(src)<<endl;
 }
 
 void testReverseWords() {
-    std::cout<<"test ReverseWords"<<std::endl;
+    cout<<"test ReverseWords"<<endl;
     Solution s = Solution();
-    std::string src = "the sky is blue";
-    std::cout<<s.reverseWords(src)<<std::endl;
+    string src = "the sky is blue";
+    cout<<s.reverseWords(src)<<endl;
+}
+
+void testIsStraight(){
+    cout<<"testIsStraight"<<endl;
+    Solution s = Solution();
+    vector<int> nums{1,2,3,4,5};
+    cout<<s.isStraight(nums)<<endl;
 }
 
 int main() {
@@ -149,5 +158,6 @@ int main() {
     testMinArray();
     testFirstUniqChar();
     testReverseWords();
+    testIsStraight();
     return 0;
 }

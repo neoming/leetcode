@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <queue>
+#include <set>
 
 using namespace std;
 
@@ -77,6 +78,32 @@ public:
             }
         }
         return ancestor;
+    }
+    //  day 16
+    string minNumber(vector<int>& nums) {
+        vector<string> strs;
+        for(auto & num : nums)strs.emplace_back(to_string(num));
+        sort(strs.begin(),strs.end(),[](string& a, string& b){return  a+b < b+a;});
+        string res;
+        for(auto str : strs)res+=str;
+        return res;
+    }
+
+    bool isStraight(vector<int>& nums) {
+        set<int> numSet;
+        int maxNum = -1;
+        int minNum = 100;
+        for(auto & num : nums){
+            if(num == 0)continue;
+            else if(numSet.find(num) == numSet.end()){
+                numSet.insert(num);
+                maxNum = max(num,maxNum);
+                minNum = min(num,minNum);
+            } else{
+                return false;
+            }
+        }
+        return maxNum-minNum < 5;
     }
 
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
