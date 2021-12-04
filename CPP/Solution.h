@@ -58,7 +58,38 @@ struct TreeNode {
 
 class Solution {
 public:
+    // day 18
+    int maxDepth(TreeNode* root) {
+        queue<TreeNode*> treeQue;
+        if(root == nullptr)return 0;
+        int depth = 0;
+        treeQue.push(root);
+        while (!treeQue.empty()){
+            depth++;
+            int length = treeQue.size();
+            for(int i = 0;i<length;i++){
+                TreeNode* tmp = treeQue.front();
+                treeQue.pop();
+                if(tmp->left != nullptr)treeQue.push(tmp->left);
+                if(tmp->right != nullptr)treeQue.push(tmp->right);
+            }
+        }
+        return depth;
+    }
 
+    int height(TreeNode* root){
+        if(root == nullptr)return 0;
+        int leftHeight = height(root->left);
+        int rightHeight = height((root->right));
+        if( rightHeight == -1 || leftHeight == -1 || abs(leftHeight - rightHeight) > 1){
+            return -1;
+        } else{
+            return max(leftHeight,rightHeight) + 1;
+        }
+    }
+    bool isBalanced(TreeNode* root){
+        return height(root) >= 0;
+    }
     // day 15
     vector<int> path;
     vector<vector<int>> ans;
