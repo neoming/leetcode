@@ -58,6 +58,36 @@ struct TreeNode {
 
 class Solution {
 public:
+    // day 19
+    int sumNums(int n) {
+        return addNums(n);
+    }
+    int addNums(int n){
+        if(n == 1)return 1;
+        else return n + addNums(n-1);
+    }
+
+    TreeNode* lowestCommonAncestor1(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* ancestor=root;
+        while (true){
+            if(p->val < ancestor->val && q->val < ancestor->val)ancestor = ancestor->left;
+            else if(p->val > ancestor->val && q->val > ancestor->val)ancestor = ancestor->right;
+            else{
+                break;
+            }
+        }
+        return ancestor;
+    }
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == nullptr || p == root || q == root)return root;
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
+        if(left == nullptr && right == nullptr)return nullptr;
+        else if(left == nullptr)return right;
+        else if(right == nullptr)return left;
+        return root;
+    }
     // day 18
     int maxDepth(TreeNode* root) {
         queue<TreeNode*> treeQue;
