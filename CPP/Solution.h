@@ -59,6 +59,31 @@ struct TreeNode {
 
 class Solution {
 public:
+    // day 17
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        vector<int> vec(k,0);
+        if(k == 0)return vec;
+        priority_queue<int> Q;
+        for(int i = 0;i<k;i++)Q.push(arr[i]);
+        for(int i = k;i<arr.size();i++){
+            if(Q.top() > arr[i]){
+                Q.pop();
+                Q.push(arr[i]);
+            }
+        }
+        for(int i = 0;i<k;i++){
+            vec[i] = Q.top();
+            Q.pop();
+        }
+        return vec;
+//        vector<int> ans(k,0);
+//        sort(arr.begin(),arr.end());
+//        for(int i = 0;i<k;i++){
+//            ans[i] = arr[i];
+//        }
+//        return ans;
+    }
+
     // day 19
     int sumNums(int n) {
         return addNums(n);
@@ -414,7 +439,7 @@ public:
 
     int maxSubArray(vector<int>& nums) {
         int pre = 0;
-        int maxRes = INT_MIN;
+        int maxRes = INTMAX_MIN;
         for(auto & num : nums){
             pre = max(pre + num, num);
             maxRes = max(maxRes, pre);
@@ -480,7 +505,7 @@ public:
 //    }
 
     int maxProfit(vector<int>& prices) {
-        int min = INT_MAX;
+        int min = INTMAX_MAX;
         int res = 0;
         for(int& price : prices) {
             if(price < min) min = price;
