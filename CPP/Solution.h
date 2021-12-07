@@ -61,6 +61,23 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 21
+    int hammingWeight(uint32_t n){
+        int ans = 0;
+        while (n != 0){
+            if(n&1)ans++;
+            n = n >> 1;
+        }
+        return ans;
+    }
+    int add(int a, int b) {
+        while (b != 0){
+            int c = (unsigned int)(a & b) << 1;
+            a ^= b;
+            b = c;
+        }
+        return a;
+    }
     // day 20
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         int n = inorder.size();
