@@ -58,7 +58,55 @@ struct TreeNode {
 };
 
 class Solution {
+private:
+    unordered_map<int,int> indexMap;
 public:
+    // day 20
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n = inorder.size();
+        for(int i = 0;i<inorder.size();i++){
+            indexMap[inorder[i]] = i;
+        }
+        return myBuildTree(preorder,inorder,0,n-1,0,n-1);
+    }
+    TreeNode* myBuildTree(vector<int>& preorder, vector<int>& inorder, int preorder_left, int preorder_right, int inorder_left, int inorder_right){
+        if(preorder_left > preorder_right)return nullptr;
+        TreeNode* root = new TreeNode(preorder[preorder_left]);
+        int inorder_root_index = indexMap[preorder[preorder_left]];
+        int left_subtree_size = inorder_root_index-inorder_left;
+        root->left = myBuildTree(preorder,inorder,preorder_left+1,preorder_left+left_subtree_size,inorder_left,inorder_root_index-1);
+        root->right = myBuildTree(preorder,inorder,preorder_left+left_subtree_size+1,preorder_right,inorder_root_index+1,inorder_right);
+        return root;
+    }
+    double myPow(double x, int n) {
+        if(n == 0)return 1.0;
+        if(x == 0.0)return 0.0;
+        long p = n;
+        if(p < 0){
+            x = 1/x;
+            p = -1*p;
+        }
+        double ans = 1.0;
+        while (p!=0){
+            if(p&1)ans *=x;
+            p = p>>1;
+            x*=x;
+        }
+        return ans;
+    }
+
+    bool verifyPostorder(vector<int>& postorder) {
+        return verifyPostorderRecur(postorder,0,postorder.size()-1);
+    }
+    bool verifyPostorderRecur(vector<int>& postorder, int left, int right){
+        if(left>right)return true;
+        int rootValue = postorder[right];
+        int leftIndex = left;
+        while (postorder[leftIndex] < rootValue)leftIndex++;
+        int midIndex = left;
+        while (postorder[leftIndex] > rootValue)leftIndex++;
+        return leftIndex == right && verifyPostorderRecur(postorder,left,midIndex-1) && verifyPostorderRecur(postorder,midIndex,right-1);
+    }
     // day 17
     vector<int> getLeastNumbers(vector<int>& arr, int k) {
         vector<int> vec(k,0);
