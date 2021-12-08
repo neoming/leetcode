@@ -61,6 +61,42 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 22
+    vector<int> singleNumbers(vector<int>& nums) {
+        int ret = 0;
+        for(int num:nums)ret ^= num;
+        unsigned int index = 1;
+        while ((index & ret) == 0)index <<= 1;
+        int a = 0;
+        int b = 0;
+        for(int num :nums){
+            if(index & num){
+                a ^= num;
+            }else{
+                b ^= num;
+            }
+        }
+        return vector<int>{a,b};
+    }
+
+    int singleNumber(vector<int>& nums) {
+        int bitCount [32] = {0};
+        for(int num : nums){
+            for(int i = 0;i<32;i++){
+                if(num & 1)bitCount[i]++;
+                num >>= 1;
+            }
+        }
+        for(int i = 0;i<32;i++){
+            bitCount[i] %= 3;
+        }
+        int ans = 0;
+        for(int i = 31;i>=0;i--){
+            ans <<= 1;
+            ans |= bitCount[i];
+        }
+        return ans;
+    }
     // day 21
     int hammingWeight(uint32_t n){
         int ans = 0;
