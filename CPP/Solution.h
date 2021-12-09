@@ -61,6 +61,35 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 23
+    int majorityElement(vector<int>& nums) {
+        int x = 0, votes = 0;
+        for(auto num : nums){
+            if(votes == 0){
+                x = num;
+                votes++;
+            }else{
+                if(num == x)votes++;
+                else votes--;
+            }
+        }
+        return x;
+    }
+    vector<int> constructArr(vector<int>& a) {
+        if(a.size() == 0)return {};
+        int len = a.size();
+        vector<int> ans (len,1);
+        for(int i = 1;i<len;i++){
+            ans[i] = ans[i-1] * a[i-1];
+        }
+        int tmp = 1;
+        for(int i = len - 2; i >= 0;i--){
+            tmp *= a[i+1];
+            ans[i] *= tmp;
+        }
+        return ans;
+    }
+
     // day 22
     vector<int> singleNumbers(vector<int>& nums) {
         int ret = 0;
