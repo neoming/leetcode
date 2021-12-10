@@ -61,6 +61,50 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 24
+    int cuttingRope(int n) {
+        vector<int> dp(n+1,0);
+        for(int i = 2;i<=n;i++){
+            int maxValue = 0;
+            for(int j = 1; j < i ; j++){
+                maxValue = max(maxValue, max(dp[i-j] * j,j*(i-j)));
+            }
+            dp[i] = maxValue;
+        }
+        return dp[n];
+    }
+
+    vector<vector<int>> findContinuousSequence(int target) {
+        vector<vector<int>> ans;
+        int i = 1;
+        int j = 2;
+        int sum = 3;
+        while (i < j){
+            if(sum == target){
+                vector<int> tmp;
+                for(int k = i;k<=j;k++)tmp.emplace_back(k);
+                ans.emplace_back(tmp);
+            }
+            if(sum >= target){
+                sum -= i;
+                i++;
+            }else{
+                j++;
+                sum += j;
+            }
+        }
+        return ans;
+    }
+
+    int lastRemaining(int n, int m) {
+        return lastRemainingRecur(n,m);
+    }
+    int lastRemainingRecur(int n, int m){
+        if(n == 1)return 0;
+        int x = lastRemainingRecur(n-1,m);
+        return (m+x)%n;
+    }
+
     // day 23
     int majorityElement(vector<int>& nums) {
         int x = 0, votes = 0;
