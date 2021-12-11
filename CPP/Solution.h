@@ -56,11 +56,104 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+enum Direction{
+    Left,Right,Up,Down
+};
 
 class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 25
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ans;
+        if(matrix.size() == 0)return ans;
+        vector<vector<bool>> visited(matrix.size(),vector<bool>(matrix[0].size(), false));
+        Direction direction = Right;
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int length = m*n;
+        int i=0,j=0;
+        while (length>0){
+            switch (direction) {
+                case Right:
+                    if(j >= n || visited[i][j]){
+                        direction=Down;
+                        j--;
+                        i++;
+                    }
+                    else{
+                        ans.emplace_back(matrix[i][j]);
+                        visited[i][j]= true;
+                        length--;
+                        j++;
+                    }
+                    break;
+                case Down:
+                    if(i >= m || visited[i][j]){
+                        direction=Left;
+                        i--;
+                        j--;
+                    }
+                    else{
+                        ans.emplace_back(matrix[i][j]);
+                        visited[i][j]= true;
+                        length--;
+                        i++;
+                    }
+                    break;
+                case Left:
+                    if(j < 0 || visited[i][j]){
+                        direction=Up;
+                        j++;
+                        i--;
+                    }
+                    else{
+                        ans.emplace_back(matrix[i][j]);
+                        visited[i][j]= true;
+                        j--;
+                        length--;
+                    }
+                    break;
+                case Up:
+                    if(i < 0 || visited[i][j]){
+                        direction=Right;
+                        i++;
+                        j++;
+                    }else{
+                        ans.emplace_back(matrix[i][j]);
+                        visited[i][j]= true;
+                        i--;
+                        length--;
+                    }
+            }
+        }
+        return ans;
+    }
+
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        if(pushed.size() != popped.size())return false;
+        if(pushed.size() == 0)return true;
+        int i = 0,j = 0;
+        int len = pushed.size();
+        stack<int> stack;
+        while (i < len || j <len){
+            if(stack.empty()){
+                stack.push(pushed[i++]);
+                continue;
+            }
+            if(stack.top() != popped[j]){
+                if(i == len)return false;
+                stack.push(pushed[i++]);
+            }
+            else{
+                j++;
+                stack.pop();
+            }
+        }
+
+        return i == j && stack.empty();
+    }
     // day 24
     int cuttingRope(int n) {
         vector<int> dp(n+1,0);

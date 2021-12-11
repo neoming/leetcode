@@ -137,11 +137,29 @@ void testReverseWords() {
     cout<<s.reverseWords(src)<<endl;
 }
 
+void testSpiralOrder() {
+    cout<<"test SpiralOrder"<<endl;
+    Solution s = Solution();
+    vector<vector<int>> matrix;
+    matrix.emplace_back(vector<int>{1,2,3});
+    matrix.emplace_back(vector<int>{4,5,6});
+    matrix.emplace_back(vector<int>{7,8,9});
+    s.spiralOrder(matrix);
+}
+
 void testIsStraight(){
     cout<<"testIsStraight"<<endl;
     Solution s = Solution();
     vector<int> nums{1,2,3,4,5};
     cout<<s.isStraight(nums)<<endl;
+}
+
+void testValidateStackSequences(){
+    cout<<"testValidateStackSequences"<<endl;
+    Solution s = Solution();
+    vector<int> pushed{1,2,3,4,5};
+    vector<int> popped{4,5,3,2,1};
+    cout<<s.validateStackSequences(pushed,popped)<<endl;
 }
 
 int main() {
@@ -159,5 +177,7 @@ int main() {
     testFirstUniqChar();
     testReverseWords();
     testIsStraight();
+    testSpiralOrder();
+    testValidateStackSequences();
     return 0;
 }
