@@ -64,6 +64,105 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 26
+    int strToInt(string str) {
+        // clear white space
+        int i = 0;
+        while (i<str.size() && str[i]==' ')i++;
+        str = str.substr(i);
+        bool neg = false;
+        i = 0;
+        if(str[0] == '-'){
+            neg= true;
+            i++;
+        }else if(str[0] == '+')i++;
+        long ans = 0;
+        while (i<str.size()){
+            if(str[i]>='0' && str[i]<='9'){
+                ans = ans * 10 + (str[i]-'0');
+                if(ans >= INT32_MAX)break;
+                i++;
+            } else break;
+        }
+        int res = 0;
+        if(neg)ans *= -1;
+        if(ans >= INT32_MAX){
+            res = INT32_MAX;
+        }else if(ans <= INT32_MIN){
+            res = INT32_MIN;
+        }else{
+            res = (int)ans;
+        }
+        return res;
+    }
+    string clearWhiteSpace(string s){
+        // clear white space
+        int i = 0;
+        while (i<s.size()){
+            if(s[i] == ' '){
+                i++;
+                continue;
+            }else{
+                break;
+            }
+        }
+        auto j = s.size() - 1;
+        while (j > i){
+            if(s[j] == ' '){
+                j--;
+            }else{
+                break;
+            }
+        }
+        return s.substr(i,j-i+1);
+    }
+    bool isNumber(string s) {
+        s = clearWhiteSpace(s);
+        if(s.find('e')==-1 && s.find('E')==-1){
+            return isInteger(s) || isDecimal(s);
+        }else{
+            auto i = s.find('e')==-1?s.find('E'):s.find('e');
+            string preStr = s.substr(0,i);
+            string sufStr = s.substr(i+1);
+            return (isInteger(preStr) || isDecimal(preStr)) && isInteger(sufStr);
+        }
+        return false;
+    }
+    bool isDigital(char c){
+        return c>='0' && c <= '9';
+    }
+    bool isInteger(string s){
+        int len = s.size();
+        if(len == 0)return false;
+        if(s[0] == '+' || s[0] == '-')s = s.substr(1);
+        if(s.size()==0)return false;
+        for(char i : s){
+            if(!isDigital(i))return false;
+        }
+        return true;
+    }
+
+    bool isDecimal(string s){
+        int len = s.size();
+        if(len == 0)return false;
+        if(s[0] == '+' || s[0] == '-')s = s.substr(1);
+        auto index = s.find('.');
+        if(index == -1)return false;
+        if(index != 0){
+            if(index == s.size()-1){
+                return isInteger(s.substr(0,index));
+            }else{
+                return isInteger(s.substr(0,index)) && isInteger(s.substr(index+1));
+            }
+        }else{
+            if(s.size() == 1)return false;
+            for(char c : s.substr(1)){
+                if(!isDigital(c))return false;
+            }
+            return true;
+        }
+        return true;
+    }
     // day 25
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
         vector<int> ans;

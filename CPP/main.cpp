@@ -162,22 +162,30 @@ void testValidateStackSequences(){
     cout<<s.validateStackSequences(pushed,popped)<<endl;
 }
 
+void testIsNumber(){
+    cout<<"testIsNumber"<<endl;
+    Solution s = Solution();
+    string str = ".-4";
+    cout<<s.isNumber(str)<<endl;
+}
+
 int main() {
-    testCQueue();
-    testMinStack();
-    testReversePrint();
-    testReverseListNode();
-    testReplaceSpace();
-    testReverseLeftWords();
-    testFindRepeatNumber();
-    testSearch();
-    testMissingNumber();
-    testFindNumberIn2DArray();
-    testMinArray();
-    testFirstUniqChar();
-    testReverseWords();
-    testIsStraight();
-    testSpiralOrder();
-    testValidateStackSequences();
+//    testCQueue();
+//    testMinStack();
+//    testReversePrint();
+//    testReverseListNode();
+//    testReplaceSpace();
+//    testReverseLeftWords();
+//    testFindRepeatNumber();
+//    testSearch();
+//    testMissingNumber();
+//    testFindNumberIn2DArray();
+//    testMinArray();
+//    testFirstUniqChar();
+//    testReverseWords();
+//    testIsStraight();
+//    testSpiralOrder();
+//    testValidateStackSequences();
+    testIsNumber();
     return 0;
 }
