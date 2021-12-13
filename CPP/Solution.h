@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <queue>
 #include <set>
+#include <deque>
 
 using namespace std;
 
@@ -64,6 +65,41 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
 public:
+    // day 27
+//    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+//        int length = nums.size();
+//        vector<int> ans;
+//        if(length == 0)return ans;
+//        priority_queue<pair<int,int>> q;
+//        for(int i = 0;i<k;i++){
+//            q.emplace(nums[i],i);
+//        }
+//        ans.emplace_back(q.top().first);
+//        for(int i = k ;i<length;i++){
+//            q.emplace(nums[i],i);
+//            while (q.top().second <= i-k)q.pop();
+//            ans.emplace_back(q.top().first);
+//        }
+//        return ans;
+//    }
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int length = nums.size();
+        vector<int> ans;
+        if(length == 0)return ans;
+        deque<int > q;
+        for(int i = 0;i<k;i++){
+            while (!q.empty() && nums[i] >= nums[q.back()])q.pop_back();
+            q.emplace_back(i);
+        }
+        ans.emplace_back(nums[q.front()]);
+        for(int i = k;i<length;i++){
+            while (!q.empty() && nums[i] >= nums[q.back()])q.pop_back();
+            q.push_back(i);
+            while (q.front() <= i-k)q.pop_front();
+            ans.push_back(nums[q.front()]);
+        }
+        return ans;
+    }
     // day 26
     int strToInt(string str) {
         // clear white space
