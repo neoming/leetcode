@@ -12,7 +12,7 @@ using namespace std;
 struct ListNode {
     int val;
     ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
+    explicit ListNode(int x) : val(x), next(nullptr) {}
 };
 
 //class Node {
@@ -54,7 +54,7 @@ struct TreeNode {
     TreeNode* left;
     TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    explicit TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 enum Direction{
@@ -64,7 +64,28 @@ enum Direction{
 class Solution {
 private:
     unordered_map<int,int> indexMap;
+    vector<string> permutationRes;
 public:
+    // day 28
+    vector<string> permutation(string s) {
+        permutationRes.clear();
+        permutationRecur(s,0);
+        return permutationRes;
+    }
+    void permutationRecur(string& s, int i){
+        if (i == s.size()-1){
+            permutationRes.push_back(s);
+            return;
+        }
+        set<char> st;
+        for(int x = i;x<s.size();x++){
+            if(st.find(s[x]) != st.end())continue;
+            st.insert(s[x]);
+            swap(s[i],s[x]);
+            permutationRecur(s,i+1);
+            swap(s[i],s[x]);
+        }
+    }
     // day 27
 //    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 //        int length = nums.size();

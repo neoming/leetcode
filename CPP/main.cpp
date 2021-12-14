@@ -2,6 +2,7 @@
 #include "CQueue.h"
 #include "MinStack.h"
 #include "Solution.h"
+#include "Codec.h"
 using namespace std;
 
 void testCQueue() {
@@ -169,6 +170,26 @@ void testIsNumber(){
     cout<<s.isNumber(str)<<endl;
 }
 
+void testTreeNodeSerialize(){
+    cout<<"testTreeNodeSerialize"<<endl;
+    Codec c = Codec();
+    auto root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->right->left = new TreeNode(4);
+    root->right->right = new TreeNode(5);
+    auto s = c.serialize(root);
+    cout<<s<<endl;
+    TreeNode* newRoot = c.deserialize(s);
+    cout<<c.serialize(newRoot)<<endl;
+}
+
+void testPermutation(){
+    cout<<"testPermutation"<<endl;
+    Solution s = Solution();
+    string str = "abc";
+    s.permutation(str);
+}
 int main() {
 //    testCQueue();
 //    testMinStack();
@@ -186,6 +207,7 @@ int main() {
 //    testIsStraight();
 //    testSpiralOrder();
 //    testValidateStackSequences();
-    testIsNumber();
+//    testTreeNodeSerialize();
+    testPermutation();
     return 0;
 }
