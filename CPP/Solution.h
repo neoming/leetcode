@@ -66,6 +66,63 @@ private:
     unordered_map<int,int> indexMap;
     vector<string> permutationRes;
 public:
+    // day 29
+    vector<double> dicesProbability(int n) {
+        vector<double>ans;
+        if(n == 0)return ans;
+        ans = vector<double>(6,1.0/6.0);
+        for(int i = 2;i<=n;i++){
+            vector<double> tmp(5*i+1,0.0);
+            for(int j = 0;j<ans.size();j++)
+                for(int k = 0;k<6;k++){
+                    tmp[j+k] += ans[j]*(1.0/6.0);
+                }
+            ans = tmp;
+        }
+        return ans;
+    }
+    int nthUglyNumber(int n) {
+        vector<int> dp(n+1);
+        dp[0] = 0;
+        dp[1] = 1;
+        int p2 = 1,p3 = 1,p5 = 1;
+        for(int i = 2;i<=n;i++){
+            int num2 = dp[p2] * 2;
+            int num3 = dp[p3] * 3;
+            int num5 = dp[p5] * 5;
+            dp[i] = min(min(num2,num3),num5);
+            if(dp[i] == num2)p2++;
+            if(dp[i] == num3)p3++;
+            if(dp[i] == num5)p5++;
+        }
+        return dp[n];
+    }
+    bool isMatch(string s, string p) {
+        auto m = s.size();
+        auto n = p.size();
+        auto matches = [&](int x,int y){
+            if(x == 0)return false;
+            if(p[y-1] == '.')return true;
+            return s[x-1] == p[y-1];
+        };
+        vector<vector<bool>> dp(m+1,vector<bool>(n+1, false));
+        dp[0][0]=true;
+        for(int i = 0;i<=m;i++){
+            for(int j = 1;j<=n;j++){
+                if(p[j-1] == '*'){
+                    dp[i][j] = dp[i][j-2] || dp[i][j];
+                    if(matches(i,j-1)){
+                        dp[i][j] = dp[i-1][j] || dp[i][j];
+                    }
+                }else{
+                    if(matches(i,j)){
+                        dp[i][j] = dp[i-1][j-1] || dp[i][j];
+                    }
+                }
+            }
+        }
+        return dp[m][n];
+    }
     // day 28
     vector<string> permutation(string s) {
         permutationRes.clear();
