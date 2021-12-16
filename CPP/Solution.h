@@ -65,7 +65,54 @@ class Solution {
 private:
     unordered_map<int,int> indexMap;
     vector<string> permutationRes;
+    vector<int> printNumbersAns;
+    vector<char> numberChars = {'0','1','2','3','4','5','6','7','8','9'};
+
+    vector<int> reversePairsTmp;
 public:
+    // day 30
+    int reversePairs(vector<int>& nums) {
+        vector<int> tmp(nums.size());
+        return reversePairsRecur(0,nums.size()-1, nums, tmp);
+    }
+    int reversePairsRecur(int left, int right, vector<int>&nums, vector<int>&tmp){
+        if(left >= right)return 0;
+        int mid = (right+left)/2;
+        int count = reversePairsRecur(left,mid,nums,tmp) + reversePairsRecur(mid+1, right,nums,tmp);
+        int i = left, j = mid + 1;
+        for(int k = left; k <= right;k++)tmp[k]=nums[k];
+        for(int k = left; k <= right;k++){
+            if(i == mid + 1){
+                nums[k] = tmp[j++];
+            }else if( j == right + 1 || tmp[i] <= tmp[j]){
+                nums[k] = tmp[i++];
+            }else{
+                nums[k] = tmp[j++];
+                count += mid-i+1;
+            }
+        }
+        return count;
+    }
+    vector<int> printNumbers(int n) {
+        printNumbersAns.clear();
+        printNumbersRecur(0,n,"");
+        return printNumbersAns;
+    }
+    void printNumbersRecur(int now, int target, string s){
+        if(now == target){
+            int index = 0;
+            while (s[index] == '0')index++;
+            string news = s.substr(index);
+            if(news.size() != 0){
+                printNumbersAns.emplace_back(atoi(news.c_str()));
+            }
+            return;
+        }
+        for(auto c : numberChars){
+            string newStr  = s + c;
+            printNumbersRecur(now+1,target,newStr);
+        }
+    }
     // day 29
     vector<double> dicesProbability(int n) {
         vector<double>ans;

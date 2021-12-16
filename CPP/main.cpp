@@ -190,6 +190,15 @@ void testPermutation(){
     string str = "abc";
     s.permutation(str);
 }
+
+void testPrintNumbersRecur(){
+    cout<<"testPrintNumbersRecur"<<endl;
+    Solution s = Solution();
+//    s.printNumbers(1);
+    string test = "0";
+    string test1 = test.substr(1);
+    cout<<test1<<endl;
+}
 int main() {
 //    testCQueue();
 //    testMinStack();
@@ -208,6 +217,7 @@ int main() {
 //    testSpiralOrder();
 //    testValidateStackSequences();
 //    testTreeNodeSerialize();
-    testPermutation();
+//    testPermutation();
+    testPrintNumbersRecur();
     return 0;
 }
