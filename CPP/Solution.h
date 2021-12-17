@@ -70,6 +70,70 @@ private:
 
     vector<int> reversePairsTmp;
 public:
+    // day 31
+    int findNthDigit(int n) {
+        int digit = 1, start = 1, count = 9;
+        while (n > count){
+            n -= count;
+            digit += 1;
+            start *= 10;
+            count = 9 * start * digit;
+        }
+        int num = start + (n - 1)/digit;
+        string nums = to_string(num);
+        return nums[(n-1)%digit] - '0';
+    }
+
+    int cuttingRope(int n) {
+        if(n <= 3)return n-1;
+        long ans = 1;
+        int mod = n % 3;
+        int pow = n / 3;
+        switch (mod) {
+            case 0:
+                for(int i = 0; i < pow ; i++){
+                    ans = 3 * ans % 1000000007;
+                }
+                break;
+            case 1:
+                for(int i = 0; i < pow - 1;i++){
+                    ans = 3 * ans % 1000000007;
+                }
+                ans = 4 * ans % 1000000007;
+                break;
+            case 2:
+                for(int i = 0; i < pow;i++){
+                    ans = 3 * ans % 1000000007;
+                }
+                ans = 2 * ans % 1000000007;
+                break;
+        }
+        return int(ans);
+    }
+
+    int countDigitOne(int n) {
+        long digit = 1;
+        int res = 0;
+        int high = n/10, cur = n % 10, low = 0;
+        while (high != 0 || cur != 0){
+            switch (cur) {
+                case 0:
+                    res += digit * high;
+                    break;
+                case 1:
+                    res += (digit * high) + low + 1;
+                    break;
+                default:
+                    res += (high + 1) * digit;
+            }
+            low += digit*cur;
+            cur = high % 10;
+            high /= 10;
+            digit *= 10;
+        }
+        return res;
+    }
+
     // day 30
     int reversePairs(vector<int>& nums) {
         vector<int> tmp(nums.size());
